@@ -37,5 +37,7 @@
 </div>
 {{--  Livewire Js  --}}
 @livewireScripts
+
+<x-toaster-hub/>
 </body>
 </html>
