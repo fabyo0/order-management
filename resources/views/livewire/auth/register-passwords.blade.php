@@ -7,6 +7,7 @@
             <div class="relative flex-1 col-span-4" x-data="{ show: true }">
                 <input class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                        id="password"
+                        wire:keydown="updatePassword"
                        :type="show ? 'password' : 'text'"
                        name="password"
                        wire:model="password"

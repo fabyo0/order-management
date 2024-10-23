@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\enums\PasswordStrength;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use ZxcvbnPhp\Zxcvbn;
@@ -14,12 +15,7 @@ class RegisterPasswords extends Component
 
     public int $strengthScore = 0;
 
-    public array $strengthLevels = [
-        1 => 'Weak',
-        2 => 'Fair',
-        3 => 'Good',
-        4 => 'Strong',
-    ];
+    public ?array $strengthLevels;
 
     // Generate password random
     public function generatePassword(): void
@@ -28,19 +24,38 @@ class RegisterPasswords extends Component
         $this->setPasswords($password);
     }
 
+    public function mount()
+    {
+        $this->strengthLevels = PasswordStrength::toArray();
+    }
+
     protected function setPasswords($value): void
     {
         $this->password = $value;
         $this->passwordConfirmation = $value;
-        $this->updatedPassword($value);
+        $this->calculatePasswordStrength($value);
     }
 
     // Checked the password strength
-    public function updatedPassword($value): void
+    public function calculatePasswordStrength($value): void
     {
         $this->strengthScore = (new Zxcvbn())->passwordStrength($value)['score'];
     }
 
+
+    public function updatePassword(): void
+    {
+        $this->calculatePasswordStrength($this->password);
+    }
+
+    protected function debouncedPasswordStrengthCalculation(string $password): void
+    {
+        $this->dispatch('debounce', [
+            'fn' => 'calculatePasswordStrength',
+            'args' => [$password],
+            'delay' => 500,
+        ]);
+    }
 
     public function render()
     {
