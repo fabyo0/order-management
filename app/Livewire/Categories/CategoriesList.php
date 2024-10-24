@@ -6,6 +6,8 @@ use App\Livewire\Forms\CategoryForm;
 use App\Models\Category;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,7 +18,8 @@ class CategoriesList extends Component
     use WithPagination;
     use Toastable;
 
-    public Category $category;
+    #[Reactive]
+    public ?Category $category = null;
 
     public CategoryForm $form;
 
@@ -30,7 +33,7 @@ class CategoriesList extends Component
     #[Validate('nullable|string')]
     public ?string $slug = '';
 
-    public Collection $categories;
+    public ?Collection $categories;
 
     public ?array $active;
 
@@ -40,18 +43,26 @@ class CategoriesList extends Component
 
     public function save(): void
     {
-        $position = Category::max('position') + 1;
-        Category::create(array_merge($this->only('name', 'slug'), ['position' => $position]));
-
-        $this->success('Category created successfully  🤙');
-        $this->reset('showModal');
+        //TODO: category boş olmasa bile null olarak dönüyor
+        if (is_null($this->category)) {
+            $position = Category::max('position') + 1;
+            Category::create(array_merge($this->only('name', 'slug'), ['position' => $position]));
+            $this->success('Category created successfully  🤙');
+        } else {
+            $this->category->update($this->only('name', 'slug'));
+            $this->success('Category updated successfully  🤙');
+        }
+        $this->reset('showModal', 'editedCategoryId');
+        $this->resetValidation();
     }
 
 
     //TODO: update hooks dinleyerek slugable işlemini yaptık
     public function updatedSlug(): void
     {
-        $this->slug = Str::slug($this->name);
+        if (!$this->slug) {
+            $this->slug = Str::slug($this->name);
+        }
     }
 
     public function openModal(): void
@@ -70,6 +81,34 @@ class CategoriesList extends Component
         }
     }
 
+    public function editCategory($id): void
+    {
+        $this->editedCategoryId = $id;
+        $category = Category::findOrFail($id);
+
+        $this->name = $category->name;
+        $this->slug = $category->slug;
+    }
+
+    //TODO: günclleme kontrolü null durumana göre yapılmalıdır
+    public function updateCategory($id): void
+    {
+        $category = Category::findOrFail($id);
+        $category->update($this->only('name', 'slug'));
+
+        $this->resetValidation();
+        $this->reset('showModal', 'editedCategoryId');
+
+        $this->success('Category updated successfully  🤙');
+    }
+
+    public function cancelCategoryEdit(): void
+    {
+        $this->resetValidation();
+        $this->reset('editedCategoryId');
+    }
+
+
     public function updateOrder($list): void
     {
         //value => category.id
@@ -87,6 +126,22 @@ class CategoriesList extends Component
         }
     }
 
+    public function deleteConfirm(string $method, $id = null): void
+    {
+        $this->dispatch('swal:confirm', [
+            'type' => 'warning',
+            'title' => 'Are you sure?',
+            'text' => '',
+            'id' => $id,
+            'method' => $method,
+        ]);
+    }
+
+    public function delete($id): void
+    {
+        Category::findOrFail($id)->delete();
+        $this->success('Category deleted successfully  🤙');
+    }
 
     public function render()
     {
@@ -99,7 +154,7 @@ class CategoriesList extends Component
 
         //TODO: category id ile is_active(key-value) olarak array döndürür
         $this->active = $this->categories->mapWithKeys(
-            fn (Category $item) => [$item['id'] => (bool) $item['is_active']]
+            fn(Category $item) => [$item['id'] => (bool)$item['is_active']]
         )->toArray();
 
         return view('livewire.categories.categories-list', [

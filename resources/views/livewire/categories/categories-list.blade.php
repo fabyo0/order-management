@@ -38,7 +38,7 @@
                             </thead>
 
                             <tbody wire:sortable="updateOrder" class="bg-white divide-y divide-gray-200">
-                            @if($categories->isNotEmpty())
+                            @if($categories->isNotEmpty() && $categories->count())
                                 @foreach($categories as $category)
                                     <tr wire:sortable.item="{{ $category->id }}" wire:key="{{ $loop->index }}">
                                         <td class="px-6 py-4">
@@ -54,31 +54,55 @@
                                                 </svg>
                                             </button>
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
+
+                                        {{-- Inline Edit Start --}}
+                                        <td class="@if($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <x-text-input wire:model.live.debounce="name" id="name" class="py-2 pr-4 pl-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
+                                            @error('name')
+                                            <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td class="@if($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <x-text-input wire:model="slug" id="slug" class="py-2 pr-4 pl-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
+                                            @error('slug')
+                                            <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        {{-- Inline Edit End --}}
+
+                                        {{-- Show Category Name/Slug Start --}}
+                                        <td class="@if($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $category->name }}
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
+                                        <td class="@if($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $category->slug }}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        {{-- Show Category Name/Slug End --}}
 
-                                            <div class="relative inline-block w-10 align-middle">
-                                                <input wire:model.live="active.{{ $category->id }}"
-                                                       wire:click="toggleIsActive({{ $category->id }})" type="checkbox"
-                                                       name="toggle" id="{{ $loop->index.$category->id }}"
-                                                       class="block absolute w-6 h-6 bg-white rounded-full border-4 appearance-none cursor-pointer focus:outline-none toggle-checkbox"/>
-                                                <label for="{{ $loop->index.$category->id }}"
-                                                       class="block overflow-hidden h-6 bg-gray-300 rounded-full cursor-pointer toggle-label"></label>
+                                        <td class="px-6">
+                                            <div class="inline-block relative mr-2 w-10 align-middle transition duration-200 ease-in select-none">
+                                                <input wire:model="active.{{ $category->id }}" wire:click="toggleIsActive({{ $category->id }})" type="checkbox" name="toggle" id="{{ $loop->index.$category->id }}" class="block absolute w-6 h-6 bg-white rounded-full border-4 appearance-none cursor-pointer focus:outline-none toggle-checkbox" />
+                                                <label for="{{ $loop->index.$category->id }}" class="block overflow-hidden h-6 bg-gray-300 rounded-full cursor-pointer toggle-label"></label>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
-                                            <x-primary-button>
-                                                {{ __('Edit') }}
-                                            </x-primary-button>
-                                            <button
-                                                class="ml-2 px-4 py-2 text-xs text-red-600 uppercase bg-red-200 rounded-md border border-transparent hover:bg-red-300">
-                                                {{ __('Delete') }}
-                                            </button>
+                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            @if($editedCategoryId === $category->id)
+                                                <x-primary-button wire:click="updateCategory({{ $category->id }})">
+                                                    Save
+                                                </x-primary-button>
+                                                <x-primary-button wire:click="cancelCategoryEdit">
+                                                    Cancel
+                                                </x-primary-button>
+                                            @else
+                                                <x-primary-button wire:click="editCategory({{ $category->id }})">
+                                                    Edit
+                                                </x-primary-button>
+                                                <button
+                                                    wire:confirm
+                                                    wire:click="delete({{  $category->id }})" class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
+                                                    Delete
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
