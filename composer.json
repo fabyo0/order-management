@@ -10,7 +10,8 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "masmerise/livewire-toaster": "^2.3"
+        "masmerise/livewire-toaster": "^2.3",
+        "spatie/laravel-sluggable": "^3.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
