@@ -21,6 +21,8 @@ class CategoryForm extends Form
 
     public bool $showModal = false;
 
+    public array $isActive = [];
+
     public function createCategory()
     {
         Category::create($this->only(['name', 'slug']));
