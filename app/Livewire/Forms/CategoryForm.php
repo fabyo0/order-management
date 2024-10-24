@@ -25,8 +25,7 @@ class CategoryForm extends Form
 
     public function createCategory()
     {
-        Category::create($this->only(['name', 'slug']));
-
-        $this->reset('showModal','name','slug');
+        $position = Category::max('position') + 1;
+        Category::create(array_merge($this->only('name', 'slug'), ['position' => $position]));
     }
 }

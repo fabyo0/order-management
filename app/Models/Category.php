@@ -14,9 +14,8 @@ class Category extends Model
         'name',
         'slug',
         'is_active',
+        'position'
     ];
-
-    protected $perPage = 10;
 
     public function getSlugOptions() : SlugOptions
     {

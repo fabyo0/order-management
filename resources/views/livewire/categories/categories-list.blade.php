@@ -37,12 +37,14 @@
                             </tr>
                             </thead>
 
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody wire:sortable="updateOrder" class="bg-white divide-y divide-gray-200">
                             @if($categories->isNotEmpty())
                                 @foreach($categories as $category)
-                                    <tr>
+                                    <tr wire:sortable.item="{{ $category->id }}" wire:key="{{ $loop->index }}">
                                         <td class="px-6 py-4">
-                                            <button class="text-gray-400 hover:text-gray-600">
+                                            <button
+                                                wire:sortable.handle
+                                                class="text-gray-400 cursor-move hover:text-gray-600">
                                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
                                                      viewBox="0 0 256 256">
                                                     <path fill="none" d="M0 0h256v256H0z"/>
@@ -90,7 +92,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {!! $categories->links(data: ['scrollTo' => false]) !!}
+                    {!! $links !!}
                 </div>
             </div>
         </div>

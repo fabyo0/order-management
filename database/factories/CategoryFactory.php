@@ -17,14 +17,16 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->sentence();
+        $name = $this->faker->sentence(5);
+        static $position = 1;
 
         return [
             'name' => $name,
             'slug' => function (array $attributes) {
                 return Str::slug($attributes['name']);
             },
-            'is_active' => $this->faker->boolean
+            'is_active' => $this->faker->boolean,
+            'position' => $position++
         ];
     }
 }
