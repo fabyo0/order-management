@@ -16,7 +16,9 @@ class CategoriesList extends Component
 
     public CategoryForm $categoryForm;
 
-    public function save()
+    public ?array $active;
+
+    public function save(): void
     {
         $this->validate();
         $this->categoryForm->createCategory();
@@ -36,20 +38,24 @@ class CategoriesList extends Component
 
     public function toggleIsActive($categoryId): void
     {
-        Category::where('id', $categoryId)->update([
-            'is_active' => $this->categoryForm->isActive[$categoryId]
-        ]);
+        $category = Category::findOrFail($categoryId);
+        if ($category) {
+            $category->is_active = $this->active[$categoryId];
+            $category->update();
+        } else {
+            $this->error('Category not found');
+        }
     }
 
 
     public function render()
     {
-        $categories = Category::select(['id', 'name', 'slug'])
+        $categories = Category::select(['id', 'name', 'slug','is_active'])
             ->orderByDesc('created_at')
             ->paginate();
 
         //TODO: category id ile is_active(key-value) olarak array döndürür
-        $this->categoryForm->isActive = $categories->mapWithKeys(
+        $this->active = $categories->mapWithKeys(
             fn(Category $item) => [$item['id'] => (bool)$item['is_active']]
         )->toArray();
 

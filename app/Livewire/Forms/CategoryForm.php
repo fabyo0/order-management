@@ -21,7 +21,7 @@ class CategoryForm extends Form
 
     public bool $showModal = false;
 
-    public array $isActive = [];
+    public ?bool $isActive;
 
     public function createCategory()
     {

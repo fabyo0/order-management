@@ -59,8 +59,9 @@
                                             {{ $category->slug }}
                                         </td>
                                         <td class="px-6 py-4">
+
                                             <div class="relative inline-block w-10 align-middle">
-                                                <input wire:model="active.{{ $category->id }}"
+                                                <input wire:model.live="active.{{ $category->id }}"
                                                        wire:click="toggleIsActive({{ $category->id }})" type="checkbox"
                                                        name="toggle" id="{{ $loop->index.$category->id }}"
                                                        class="block absolute w-6 h-6 bg-white rounded-full border-4 appearance-none cursor-pointer focus:outline-none toggle-checkbox"/>
