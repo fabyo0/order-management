@@ -13,11 +13,11 @@ class CategoryForm extends Form
 
     public ?Category $category;
 
-    #[Validate('required|string|min:3')]
-    public ?string $name;
+//    #[Validate('required|string|min:3')]
+    public ?string $name = '';
 
-    #[Validate('nullable|string')]
-    public ?string $slug;
+//    #[Validate('nullable|string')]
+    public ?string $slug = '';
 
     public bool $showModal = false;
 

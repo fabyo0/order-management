@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Categories;
 
+use App\Livewire\Forms\CategoryForm;
 use App\Models\Category;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -17,15 +18,17 @@ class CategoriesList extends Component
 
     public Category $category;
 
+    public CategoryForm $form;
+
     public bool $showModal = false;
 
     public int $editedCategoryId = 0;
 
     #[Validate('required|string|min:3')]
-    public ?string $name;
+    public ?string $name = '';
 
     #[Validate('nullable|string')]
-    public ?string $slug;
+    public ?string $slug = '';
 
     public Collection $categories;
 
@@ -37,8 +40,9 @@ class CategoriesList extends Component
 
     public function save(): void
     {
-        $this->validate();
-        $this->category->createCategory();
+        $position = Category::max('position') + 1;
+        Category::create(array_merge($this->only('name', 'slug'), ['position' => $position]));
+
         $this->success('Category created successfully  🤙');
         $this->reset('showModal');
     }
@@ -47,12 +51,12 @@ class CategoriesList extends Component
     //TODO: update hooks dinleyerek slugable işlemini yaptık
     public function updatedSlug(): void
     {
-        $this->category->slug = Str::slug($this->category->name);
+        $this->slug = Str::slug($this->name);
     }
 
     public function openModal(): void
     {
-        $this->category->showModal = true;
+        $this->showModal = true;
     }
 
     public function toggleIsActive($categoryId): void

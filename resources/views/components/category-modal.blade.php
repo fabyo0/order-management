@@ -5,7 +5,7 @@
             <div class="p-6">
                 <div class="flex justify-between items-center border-b pb-4 mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Create Category</h3>
-                    <svg wire:click.prevent="$set('categoryForm.showModal', false)"
+                    <svg wire:click.prevent="$set('category.showModal', false)"
                          class="w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-800"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                         <path
@@ -14,22 +14,22 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700" for="category.name">Name</label>
-                    <input wire:model.live.debounce.500ms="categoryForm.name" id="name"
+                    <input wire:model.live.debounce.500ms="name" id="name"
                            class="mt-2 w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"/>
-                    @error('categoryForm.name')
+                    @error('name')
                     <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700" for="category.slug">Slug</label>
-                    <input wire:model.live.debounce.500ms="categoryForm.slug" id="slug"
+                    <input wire:model.live.debounce.500ms="slug" id="slug"
                            class="mt-2 w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"/>
-                    @error('categoryForm.slug')
+                    @error('slug')
                     <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="flex justify-end space-x-2">
-                    <button type="button" wire:click.prevent="$set('categoryForm.showModal', false)"
+                    <button type="button" wire:click.prevent="$set('category.showModal', false)"
                             class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-200 rounded hover:bg-gray-300">
                         Close
                     </button>
