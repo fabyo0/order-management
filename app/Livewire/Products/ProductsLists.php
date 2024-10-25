@@ -39,31 +39,15 @@ class ProductsLists extends Component
         $products = Product::query()
             ->select(['products.*', 'countries.id as countryId', 'countries.name as countryName'])
             ->join('countries', 'countries.id', '=', 'products.country_id')
-            ->with('categories');
-
-        foreach ($this->searchColumns as $column => $value) {
-            if (!empty($value)) {
-                // Price
-                $products->when($column === 'price', function ($products) use ($value) {
-                    if (is_numeric($value[0])) {
-                        $products->where('products.price', '>=', $value[0] * 100);
-                    }
-
-                    if (is_numeric($value[0])) {
-                        $products->where('products.price', '<=', $value[0] * 100);
-                    }
-                })
-                    // Category
-                    ->when($column == 'category_id', fn($products) => $products->whereRelation('categories', 'id', $value))
-                    // Country
-                    ->when($column == 'country_id', fn($products) => $products->whereRelation('country', 'id', $value))
-                    // Product Search
-                    ->when($column == 'name', fn($products) => $products->where('products.' . $column, 'LIKE', '%' . $value . '%'));
-            }
-        }
+            ->with('categories')
+            ->filterByName($this->searchColumns['name'])
+            ->filterByPrice($this->searchColumns['price'][0], $this->searchColumns['price'][1])
+            ->filterByCategory($this->searchColumns['category_id'])
+            ->filterByCountry($this->searchColumns['country_id'])
+            ->paginate();
 
         return view('livewire.products.products-lists', [
-            'products' => $products->paginate(),
+            'products' => $products
         ]);
     }
 }

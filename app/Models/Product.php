@@ -32,7 +32,7 @@ class Product extends Model
 
     public function scopeFilterByName($query, $name)
     {
-        return $query->when($name, fn($query) => $query->where('name', 'LIKE', '%' . $name . '%'));
+        return $query->when($name, fn($query) => $query->where('products.name', 'LIKE', '%' . $name . '%'));
     }
 
     public function scopeFilterByPrice($query, $min, $max)
@@ -43,12 +43,12 @@ class Product extends Model
 
     public function scopeFilterByCategory($query, $categoryId)
     {
-        return $query->when($categoryId, fn($query) => $query->whereRelation('categories', $categoryId));
+        return $query->when($categoryId, fn($query) => $query->whereRelation('categories','id', $categoryId));
     }
 
     public function scopeFilterByCountry($query, $countryId)
     {
-        return $query->when($countryId, fn($query) => $query->whereRelation('country', $countryId));
+        return $query->when($countryId, fn($query) => $query->whereRelation('country','id', $countryId));
     }
 
 }
