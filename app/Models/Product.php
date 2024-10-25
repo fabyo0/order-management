@@ -30,4 +30,25 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function scopeFilterByName($query, $name)
+    {
+        return $query->when($name, fn($query) => $query->where('name', 'LIKE', '%' . $name . '%'));
+    }
+
+    public function scopeFilterByPrice($query, $min, $max)
+    {
+        return $query->when(is_numeric($min), fn($query) => $query->where('price', '>=', $min * 100))
+            ->when(is_numeric($max), fn($query) => $query->where('price', '<=', $max * 100));
+    }
+
+    public function scopeFilterByCategory($query, $categoryId)
+    {
+        return $query->when($categoryId, fn($query) => $query->whereRelation('categories', $categoryId));
+    }
+
+    public function scopeFilterByCountry($query, $countryId)
+    {
+        return $query->when($countryId, fn($query) => $query->whereRelation('country', $countryId));
+    }
+
 }
