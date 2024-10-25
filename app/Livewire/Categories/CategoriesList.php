@@ -6,8 +6,6 @@ use App\Livewire\Forms\CategoryForm;
 use App\Models\Category;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,7 +16,6 @@ class CategoriesList extends Component
     use WithPagination;
     use Toastable;
 
-    #[Reactive]
     public ?Category $category = null;
 
     public CategoryForm $form;
@@ -90,7 +87,7 @@ class CategoriesList extends Component
         $this->slug = $category->slug;
     }
 
-    //TODO: günclleme kontrolü null durumana göre yapılmalıdır
+    //TODO: Güncelleme kontrolü null durumana göre yapılmalıdır
     public function updateCategory($id): void
     {
         $category = Category::findOrFail($id);

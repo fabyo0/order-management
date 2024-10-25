@@ -19,6 +19,8 @@
     },
     "dependencies": {
         "@alpinejs/sort": "^3.14.3",
+        "jquery": "^3.7.1",
+        "summernote": "^0.9.1",
         "sweetalert": "^2.1.2"
     }
 }

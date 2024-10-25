@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Country;
+use App\Models\Product;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,7 +25,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            CategorySeeder::class
+            CountrySeeder::class,
         ]);
+
+        Product::factory(20)->create()->each(function (Product $product) {
+            $product->categories()->saveMany(Category::factory(mt_rand(1, 2))->make());
+        });
     }
 }

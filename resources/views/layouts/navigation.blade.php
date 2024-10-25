@@ -9,7 +9,6 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link wire:navigate :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -20,6 +19,9 @@
                         {{ __('Categories') }}
                     </x-nav-link>
 
+                    <x-nav-link wire:navigate :href="route('products.index')" :active="request()->routeIs('products.index')">
+                        {{ __('Products') }}
+                    </x-nav-link>
                 </div>
             </div>
 
