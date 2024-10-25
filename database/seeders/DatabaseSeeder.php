@@ -18,18 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Emre Dikmen',
-            'email' => 'emre@hotmail.com',
-            'password' => Hash::make('123')
-        ]);
-
         $this->call([
+            UserSeeder::class,
             CountrySeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class
         ]);
-
-        Product::factory(20)->create()->each(function (Product $product) {
-            $product->categories()->saveMany(Category::factory(mt_rand(1, 2))->make());
-        });
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -15,9 +16,9 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(5),
-            'description' => $this->faker->text(),
-            'country_id' => Category::factory(),
-            'price' => $this->faker->randomNumber(),
+            'description' => $this->faker->sentence,
+            'price' => $this->faker->randomFloat(2, 10, 500),
+            'country_id' => Country::inRandomOrder()->first()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

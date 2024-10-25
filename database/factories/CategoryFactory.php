@@ -17,7 +17,7 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->sentence(5);
+        $name = $this->faker->sentence(3);
         static $position = 1;
 
         return [
