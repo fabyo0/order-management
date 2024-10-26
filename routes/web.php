@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categories\CategoriesList;
+use App\Livewire\Order\OrderIndex;
 use App\Livewire\Products\ProductForm;
 use App\Livewire\Products\ProductsLists;
 use Illuminate\Support\Facades\Route;
@@ -21,10 +22,14 @@ Route::middleware('auth')->group(function () {
 
     // Categories
     Route::get('/categories', CategoriesList::class)->name('categories.index');
+
     // Products
     Route::get('/products', ProductsLists::class)->name('products.index');
     Route::get('products/create', ProductForm::class)->name('products.create');
     Route::get('products/{product}', ProductForm::class)->name('products.edit');
+
+    // Orders
+    Route::get('/orders', OrderIndex::class)->name('orders.index');
 });
 
 require __DIR__.'/auth.php';
