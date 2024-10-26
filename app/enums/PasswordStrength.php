@@ -15,7 +15,7 @@ enum PasswordStrength: int
             self::Weak->value => 'Weak',
             self::Fair->value => 'Fair',
             self::Good->value => 'Good',
-            self::Strong->value => 'Strong'
+            self::Strong->value => 'Strong',
         ];
     }
 

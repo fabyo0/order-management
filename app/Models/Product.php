@@ -20,6 +20,13 @@ class Product extends Model
 
     protected $perPage = 10;
 
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float'
+        ];
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
@@ -32,25 +39,24 @@ class Product extends Model
 
     public function scopeFilterByName($query, $name)
     {
-        return $query->when(!empty($term) | strlen($name), function () use ($query, $name) {
-            return $query->where('products.name', 'like', '%' . $name . '%');
+        return $query->when(! empty($term) | strlen($name), function () use ($query, $name) {
+            return $query->where('products.name', 'like', '%'.$name.'%');
         });
     }
 
     public function scopeFilterByPrice($query, $min, $max)
     {
-        return $query->when(is_numeric($min), fn($query) => $query->where('price', '>=', $min * 100))
-            ->when(is_numeric($max), fn($query) => $query->where('price', '<=', $max * 100));
+        return $query->when(is_numeric($min), fn ($query) => $query->where('price', '>=', $min * 100))
+            ->when(is_numeric($max), fn ($query) => $query->where('price', '<=', $max * 100));
     }
 
     public function scopeFilterByCategory($query, $categoryId)
     {
-        return $query->when($categoryId, fn($query) => $query->whereRelation('categories','id', $categoryId));
+        return $query->when($categoryId, fn ($query) => $query->whereRelation('categories', 'id', $categoryId));
     }
 
     public function scopeFilterByCountry($query, $countryId)
     {
-        return $query->when($countryId, fn($query) => $query->whereRelation('country','id', $countryId));
+        return $query->when($countryId, fn ($query) => $query->whereRelation('country', 'id', $countryId));
     }
-
 }

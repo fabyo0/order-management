@@ -13,8 +13,8 @@ use Masmerise\Toaster\Toastable;
 
 class CategoriesList extends Component
 {
-    use WithPagination;
     use Toastable;
+    use WithPagination;
 
     public ?Category $category = null;
 
@@ -53,11 +53,10 @@ class CategoriesList extends Component
         $this->resetValidation();
     }
 
-
     //TODO: update hooks dinleyerek slugable işlemini yaptık
     public function updatedSlug(): void
     {
-        if (!$this->slug) {
+        if (! $this->slug) {
             $this->slug = Str::slug($this->name);
         }
     }
@@ -105,7 +104,6 @@ class CategoriesList extends Component
         $this->reset('editedCategoryId');
     }
 
-
     public function updateOrder($list): void
     {
         //value => category.id
@@ -151,11 +149,11 @@ class CategoriesList extends Component
 
         //TODO: category id ile is_active(key-value) olarak array döndürür
         $this->active = $this->categories->mapWithKeys(
-            fn(Category $item) => [$item['id'] => (bool)$item['is_active']]
+            fn (Category $item) => [$item['id'] => (bool) $item['is_active']]
         )->toArray();
 
         return view('livewire.categories.categories-list', [
-            'links' => $links
+            'links' => $links,
         ]);
     }
 }

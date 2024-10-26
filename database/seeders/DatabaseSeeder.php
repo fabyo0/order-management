@@ -2,14 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\Country;
-use App\Models\Product;
-use App\Models\User;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CountrySeeder::class,
             CategorySeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
         ]);
     }
 }

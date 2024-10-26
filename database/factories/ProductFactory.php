@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Country;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;

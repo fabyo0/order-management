@@ -12,7 +12,7 @@ class ProductSeeder extends Seeder
     {
         $totalCategories = Category::count();
 
-        Product::factory(20)->create()->each(function (Product $product) use ($totalCategories) {
+        Product::factory(20)->create()->each(function (Product $product) {
             // Random category
             $randomCategoryCount = rand(1, 3);
 

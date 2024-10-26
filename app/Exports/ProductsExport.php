@@ -4,18 +4,14 @@ namespace App\Exports;
 
 use App\Models\Product;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Number;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Number;
 
 readonly class ProductsExport implements FromCollection, WithHeadings, WithMapping
 {
-    public function __construct(private array $productIDs)
-    {
-    }
-
+    public function __construct(private array $productIDs) {}
 
     public function headings(): array
     {
@@ -23,7 +19,7 @@ readonly class ProductsExport implements FromCollection, WithHeadings, WithMappi
             'Name',
             'Categories',
             'Country',
-            'Price'
+            'Price',
         ];
     }
 
@@ -33,7 +29,7 @@ readonly class ProductsExport implements FromCollection, WithHeadings, WithMappi
             $row->name,
             $row->categories->pluck('name', 'id'),
             $row->country->name,
-            Number::currency($row->price, in: 'USD')
+            Number::currency($row->price, in: 'USD'),
         ];
     }
 
@@ -42,9 +38,10 @@ readonly class ProductsExport implements FromCollection, WithHeadings, WithMappi
      */
     public function collection()
     {
-        if (!empty($this->productIDs)) {
+        if (! empty($this->productIDs)) {
             return Product::with('categories:id,name', 'country:id,name')->find($this->productIDs);
         }
+
         return Product::with('categories', 'country')->get();
     }
 }

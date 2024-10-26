@@ -12,7 +12,7 @@ class Country extends Model
 
     protected $fillable = [
         'name',
-        'short_code'
+        'short_code',
     ];
 
     public function products(): HasMany

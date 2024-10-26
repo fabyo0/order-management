@@ -26,7 +26,7 @@ class CategoryFactory extends Factory
                 return Str::slug($attributes['name']);
             },
             'is_active' => $this->faker->boolean,
-            'position' => $position++
+            'position' => $position++,
         ];
     }
 }

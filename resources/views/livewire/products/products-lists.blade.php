@@ -9,10 +9,17 @@
                 <div class="p-6 bg-gray-50 border-b border-gray-300">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-800">Manage Products</h3>
-                        <a href="#"
-                           class="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
-                            {{ __('Create Product') }}
-                        </a>
+                        <div class="flex space-x-2">
+                            <a
+                               href="{{ route('products.create') }}"
+                               class="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
 
                     @if(count($selected) > 0)
@@ -29,8 +36,6 @@
 
                     <!-- Filtreler ve arama alanları -->
                     <div class="mb-6">
-
-
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                             <div class="relative col-span-1">
                                 <input wire:model.live.500ms="searchColumns.name" type="text"
@@ -72,7 +77,6 @@
                             </div>
                         </div>
 
-
                         <div class="mb-2 space-x-2">
                             <!-- Export xls/csv/pdf -->
                             <button
@@ -91,9 +95,6 @@
                                 Pdf
                             </button>
                         </div>
-
-
-
                     </div>
 
                     <!-- Ürün tablosu -->
@@ -159,11 +160,14 @@
                                         ${{ number_format($product->price / 100, 2) }}</td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center space-x-2">
-                                            <a href="#"
+                                            <a
+                                                href="{{ route('products.edit',$product) }}"
                                                class="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
                                                 Edit
                                             </a>
-                                            <button wire:click="deleteConfirm('delete', {{ $product->id }})"
+                                            <button
+                                                wire:confirm
+                                                wire:click="delete({{ $product->id }})"
                                                     class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition duration-150 ease-in-out">
                                                 Delete
                                             </button>
@@ -174,7 +178,6 @@
                             </tbody>
                         </table>
                     </div>
-
                     <div class="mt-6">
                         {{ $products->links(data:(['scrollTo' => false])) }}
                     </div>

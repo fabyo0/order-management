@@ -14,10 +14,10 @@ class Category extends Model
         'name',
         'slug',
         'is_active',
-        'position'
+        'position',
     ];
 
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
@@ -27,7 +27,12 @@ class Category extends Model
     protected function casts(): array
     {
         return [
-            'is_active' => 'bool'
+            'is_active' => 'bool',
         ];
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

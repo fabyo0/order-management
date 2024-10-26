@@ -11,15 +11,15 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Masmerise\Toaster\Toastable;
 use Maatwebsite\Excel\Facades\Excel;
-use Symfony\Component\HttpFoundation\Response;
+use Masmerise\Toaster\Toastable;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductsLists extends Component
 {
-    use WithPagination;
     use Toastable;
+    use WithPagination;
 
     public ?array $categories = [];
 
@@ -33,7 +33,7 @@ class ProductsLists extends Component
         'price' => ['', ''],
         'description' => '',
         'category_id' => 0,
-        'country_id' => 0
+        'country_id' => 0,
     ];
 
     #[Url(history: true)]
@@ -44,7 +44,7 @@ class ProductsLists extends Component
 
     public function mount()
     {
-//        ['id' => 'value']
+        //        ['id' => 'value']
         $this->categories = Category::pluck('name', 'id')->toArray();
         $this->countries = Country::pluck('name', 'id')->toArray();
     }
@@ -60,8 +60,9 @@ class ProductsLists extends Component
     }
 
     #[On('delete')]
-    public function delete(Product $product): void
+    public function delete($productId): void
     {
+        $product = Product::findOrFail($productId);
         $product->delete();
         $this->success('Product deleted successfully  🤙');
     }
@@ -70,10 +71,10 @@ class ProductsLists extends Component
     {
         //TODO: Tüm confirm işlemleri için event tetiklenecek
         $this->dispatch('swal:confirm', [
-            'type'  => 'warning',
+            'type' => 'warning',
             'title' => 'Are you sure?',
-            'text'  => '',
-            'id'    => $id,
+            'text' => '',
+            'id' => $id,
             'method' => $method,
         ]);
     }
@@ -81,7 +82,7 @@ class ProductsLists extends Component
     #[On('deleteSelected')]
     public function deleteSelected(): void
     {
-        $products = Product::whereIn('id',$this->selected)->get();
+        $products = Product::whereIn('id', $this->selected)->get();
         $products->each->delete();
         $this->success('Selected products deleted 🤙');
         $this->reset('selected');
@@ -97,9 +98,10 @@ class ProductsLists extends Component
     public function export(string $format): BinaryFileResponse
     {
         // Check format
-        abort_if(!in_array($format,['csv', 'xlsx', 'pdf']),Response::HTTP_NOT_FOUND);
+        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+
         // Download file
-        return Excel::download(new ProductsExport($this->selected), 'products.' . $format);
+        return Excel::download(new ProductsExport($this->selected), 'products.'.$format);
     }
 
     #[Layout('layouts.app')]
@@ -116,7 +118,7 @@ class ProductsLists extends Component
             ->orderBy($this->sortColumn, $this->sortDirection);
 
         return view('livewire.products.products-lists', [
-            'products' => $products->paginate()
+            'products' => $products->paginate(),
         ]);
     }
 }

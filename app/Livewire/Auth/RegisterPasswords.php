@@ -39,9 +39,8 @@ class RegisterPasswords extends Component
     // Checked the password strength
     public function calculatePasswordStrength($value): void
     {
-        $this->strengthScore = (new Zxcvbn())->passwordStrength($value)['score'];
+        $this->strengthScore = (new Zxcvbn)->passwordStrength($value)['score'];
     }
-
 
     public function updatePassword(): void
     {
