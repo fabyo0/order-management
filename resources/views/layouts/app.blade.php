@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
+    <!-- Select2 Css -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -35,16 +38,21 @@
         {{ $slot }}
     </main>
 </div>
-{{--  Livewire Js  --}}
-@livewireScripts
+
 
 <x-toaster-hub/>
 
 <!-- Sweet Alert Confirm -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Jquery -->
+<script defer src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+
+<!-- Select2 js-->
+<script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
-    document.addEventListener('livewire:init', () => {
+  document.addEventListener('livewire:init', () => {
         Livewire.on('swal:confirm', (event) => {
             swal.fire({
                 title: event[0].title,
@@ -62,6 +70,9 @@
         })
     });
 </script>
+
+{{--  Livewire Js  --}}
+@livewireScripts
 
 @stack('js')
 </body>
