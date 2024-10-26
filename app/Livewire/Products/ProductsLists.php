@@ -63,6 +63,12 @@ class ProductsLists extends Component
     public function delete($productId): void
     {
         $product = Product::findOrFail($productId);
+
+        if ($product->orders()->exists()) {
+            $this->error('This product cannot be deleted, it already has orders');
+            return;
+        }
+
         $product->delete();
         $this->success('Product deleted successfully  🤙');
     }
@@ -83,6 +89,14 @@ class ProductsLists extends Component
     public function deleteSelected(): void
     {
         $products = Product::whereIn('id', $this->selected)->get();
+
+        foreach ($products as $product){
+            if ($product->orders()->exists()) {
+                $this->error('This product cannot be deleted, it already has orders');
+                return;
+            }
+        }
+
         $products->each->delete();
         $this->success('Selected products deleted 🤙');
         $this->reset('selected');
@@ -98,10 +112,10 @@ class ProductsLists extends Component
     public function export(string $format): BinaryFileResponse
     {
         // Check format
-        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+        abort_if(!in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
 
         // Download file
-        return Excel::download(new ProductsExport($this->selected), 'products.'.$format);
+        return Excel::download(new ProductsExport($this->selected), 'products.' . $format);
     }
 
     #[Layout('layouts.app')]
