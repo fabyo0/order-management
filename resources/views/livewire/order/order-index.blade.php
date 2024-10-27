@@ -12,7 +12,9 @@
 
                     <div class="mb-4">
                         <div class="mb-4">
-                            <a class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
+                            <a
+                                href="{{ route('orders.create') }}"
+                                class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
                                 Create Order
                             </a>
                         </div>
@@ -84,7 +86,7 @@
                                                wire:model.blur="searchColumns.order_date.0"
                                                type="text"
                                                placeholder="MM/DD/YYYY"
-                                               class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                               class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                     </div>
                                     <div>
                                         to
@@ -93,38 +95,39 @@
                                                wire:model.blur="searchColumns.order_date.1"
                                                type="text"
                                                placeholder="MM/DD/YYYY"
-                                               class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                               class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                     </div>
                                 </td>
                                 <td class="px-1 py-1 text-sm">
-                                    <input wire:model.live.debounce="searchColumns.username" type="text" placeholder="Search..."
-                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                    <input wire:model.live.debounce="searchColumns.username" type="text"
+                                           placeholder="Search..."
+                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                 </td>
                                 <td class="px-1 py-1">
                                 </td>
                                 <td class="px-1 py-1 text-sm">
                                     From
                                     <input wire:model.live.debounce="searchColumns.subtotal.0" type="number"
-                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                     to
                                     <input wire:model.live.debounce="searchColumns.subtotal.1" type="number"
-                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                 </td>
                                 <td class="px-1 py-1 text-sm">
                                     From
                                     <input wire:model.live.debounce="searchColumns.taxes.0" type="number"
-                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                     to
                                     <input wire:model.live.debounce="searchColumns.taxes.1" type="number"
-                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                 </td>
                                 <td class="px-1 py-1 text-sm">
                                     From
                                     <input wire:model.live.debounce="searchColumns.total.0" type="number"
-                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                     to
                                     <input wire:model.live.debounce="searchColumns.total.1" type="number"
-                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                           class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
                                 </td>
                             </tr>
                             </thead>
@@ -144,7 +147,8 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             @foreach($order->products as $product)
-                                                <span class="px-2 py-1 text-xs text-indigo-700 bg-indigo-200 rounded-md">{{ $product->name }}</span>
+                                                <span
+                                                    class="px-2 py-1 text-xs text-indigo-700 bg-indigo-200 rounded-md">{{ $product->name }}</span>
                                             @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
@@ -157,10 +161,13 @@
                                             ${{ number_format($order->total / 100, 2) }}
                                         </td>
                                         <td>
-                                            <a class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
+                                            <a
+                                                href="{{ route('orders.edit',$order) }}"
+                                                class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
                                                 Edit
                                             </a>
-                                            <button wire:click="deleteConfirm('delete', {{ $order->id }})" class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
+                                            <button wire:click="deleteConfirm('delete', {{ $order->id }})"
+                                                    class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
                                                 Delete
                                             </button>
                                         </td>

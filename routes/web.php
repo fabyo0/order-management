@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Categories\CategoriesList;
+use App\Livewire\Order\OrderForm;
 use App\Livewire\Order\OrderIndex;
 use App\Livewire\Products\ProductForm;
 use App\Livewire\Products\ProductsLists;
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
 
     // Orders
     Route::get('/orders', OrderIndex::class)->name('orders.index');
+    Route::get('orders/create', OrderForm::class)->name('orders.create');
+    Route::get('orders/{order}', OrderForm::class)->name('orders.edit');
 });
 
 require __DIR__.'/auth.php';

@@ -22,7 +22,6 @@ class ProductsLists extends Component
     use WithPagination;
 
     public ?array $categories = [];
-
     public ?array $countries = [];
 
     public ?array $selected = [];
@@ -44,7 +43,7 @@ class ProductsLists extends Component
 
     public function mount()
     {
-        //        ['id' => 'value']
+        // ['id' => 'value']
         $this->categories = Category::pluck('name', 'id')->toArray();
         $this->countries = Country::pluck('name', 'id')->toArray();
     }
