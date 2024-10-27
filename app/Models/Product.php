@@ -23,7 +23,7 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'float'
+            'price' => 'float',
         ];
     }
 

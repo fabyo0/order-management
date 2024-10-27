@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Country;
 use App\Models\Product;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Number;
 use Livewire\Component;
 use Masmerise\Toaster\Toastable;
 
@@ -47,7 +46,7 @@ class ProductForm extends Component
         $this->initListsForFields();
 
         // Product exits
-        if (!is_null($this->product)) {
+        if (! is_null($this->product)) {
             $this->editing = true;
             $this->product = $product;
             $this->name = $this->product->name;
@@ -70,7 +69,7 @@ class ProductForm extends Component
                     ['price' => $this->price * 100]
                 )
             );
-            $this->reset('name','description','country_id');
+            $this->reset('name', 'description', 'country_id');
 
             $this->success('Product created successfully 🤙');
 

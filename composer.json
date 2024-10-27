@@ -21,6 +21,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^2.0",
         "laravel/breeze": "^2.2",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.26",
@@ -57,7 +58,8 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "pint": "./vendor/bin/pint"
+        "pint": "./vendor/bin/pint",
+        "analyse" : "./vendor/bin/phpstan analyse"
     },
     "extra": {
         "laravel": {

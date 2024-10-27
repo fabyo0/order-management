@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
             foreach ($orders as $order) {
                 $attachData[$order->id] = [
                     'price' => rand(100, 1000),
-                    'quantity' => rand(1, 10)
+                    'quantity' => rand(1, 10),
                 ];
             }
 
@@ -34,6 +34,4 @@ class ProductSeeder extends Seeder
             $product->categories()->attach($categories);
         });
     }
-
-
 }

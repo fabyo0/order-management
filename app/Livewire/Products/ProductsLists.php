@@ -65,7 +65,8 @@ class ProductsLists extends Component
         $product = Product::findOrFail($productId);
 
         if ($product->orders()->exists()) {
-            $this->error('This product cannot be deleted, it already has orders');
+            $this->error('This product cannot be deleted, it already has orders  🧐');
+
             return;
         }
 
@@ -90,9 +91,10 @@ class ProductsLists extends Component
     {
         $products = Product::whereIn('id', $this->selected)->get();
 
-        foreach ($products as $product){
+        foreach ($products as $product) {
             if ($product->orders()->exists()) {
-                $this->error('This product cannot be deleted, it already has orders');
+                $this->error('This product cannot be deleted, it already has orders 🧐');
+
                 return;
             }
         }
@@ -112,10 +114,10 @@ class ProductsLists extends Component
     public function export(string $format): BinaryFileResponse
     {
         // Check format
-        abort_if(!in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
 
         // Download file
-        return Excel::download(new ProductsExport($this->selected), 'products.' . $format);
+        return Excel::download(new ProductsExport($this->selected), 'products.'.$format);
     }
 
     #[Layout('layouts.app')]

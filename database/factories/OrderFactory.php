@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OrderFactory extends Factory
 {
-
     protected $model = Order::class;
 
     /**
@@ -23,15 +22,15 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $subTotal = $this->faker->numberBetween(1000, 1000);
-        $taxes = (int)($subTotal * config('app.orders.taxes'));
+        $taxes = (int) ($subTotal * config('app.orders.taxes'));
         $total = $subTotal * $taxes;
 
         return [
             'user_id' => User::factory(),
-            'order_date' => Carbon::now()->subDayS(rand(1,3)),
+            'order_date' => Carbon::now()->subDayS(rand(1, 3)),
             'subtotal' => $subTotal,
             'taxes' => $taxes,
-            'total' => $total
+            'total' => $total,
         ];
     }
 }

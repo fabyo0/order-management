@@ -22,7 +22,7 @@ class Order extends Model
     protected function casts(): array
     {
         return [
-            'order_date' => 'date:m/d/Y'
+            'order_date' => 'date:m/d/Y',
         ];
     }
 
@@ -34,7 +34,7 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
-                ->withPivot('price', 'quantity');
+            ->withPivot('price', 'quantity');
     }
 
     public function scopeFilterByUserName($query, $name)

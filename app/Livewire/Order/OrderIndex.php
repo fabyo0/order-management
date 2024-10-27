@@ -3,7 +3,6 @@
 namespace App\Livewire\Order;
 
 use App\Models\Order;
-
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -18,10 +17,10 @@ class OrderIndex extends Component
 
     public array $selected = [];
 
-    #[Url(history: true,keep: true)]
+    #[Url(history: true, keep: true)]
     public string $sortColumn = 'orders.order_date';
 
-    #[Url(history: true,keep: true)]
+    #[Url(history: true, keep: true)]
     public string $sortDirection = 'asc';
 
     public array $searchColumns = [
@@ -46,18 +45,17 @@ class OrderIndex extends Component
             ->orderBy($this->sortColumn, $this->sortDirection);
 
         return view('livewire.order.order-index', [
-            'orders' => $orders->paginate(10)
+            'orders' => $orders->paginate(10),
         ]);
     }
-
 
     public function deleteConfirm(string $method, $id = null): void
     {
         $this->dispatch('swal:confirm', [
-            'type'  => 'warning',
+            'type' => 'warning',
             'title' => 'Are you sure?',
-            'text'  => '',
-            'id'    => $id,
+            'text' => '',
+            'id' => $id,
             'method' => $method,
         ]);
     }
