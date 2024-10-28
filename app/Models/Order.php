@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends Model
 {
@@ -66,5 +67,12 @@ class Order extends Model
     {
         return $query->when(is_numeric($min), fn ($query) => $query->where('orders.taxes', '>=', $min * 100))
             ->when(is_numeric($max), fn ($query) => $query->where('orders.taxes', '<=', $max * 100));
+    }
+
+    public function scopeByDays(Builder $query, int $days): Builder
+    {
+        return $query->select('order_date', \DB::raw("sum(total) as total"))
+            ->where('order_date', '>=', now()->subDays($days))
+            ->groupBy('order_date');
     }
 }

@@ -10,11 +10,8 @@ class TotalRevenueChart extends Component
 {
     protected function getData()
     {
-        $orderData = Order::query()
-            ->select('order_date', \DB::raw("sum(total) as total"))
-            ->where('order_date', '>=', now()->subDays(7))
-            ->groupBy('order_date')
-            ->get();
+        $orderSevenDayData = Order::query()->byDays(7)->get();
+        $orderMonthData = Order::query()->byDays(30)->get();
 
         /*
          * Chart JS return data example
@@ -34,17 +31,27 @@ class TotalRevenueChart extends Component
             'datasets' => [
                 [
                     'label' => __('Total revenue from last 7 days'),
-                    'data' => $orderData->map(fn(Order $order) => $order->total / 100),
+                    'data' => $orderSevenDayData->map(fn(Order $order) => $order->total / 100),
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'borderWidth' => 1,
                 ],
+                [
+                    'label' => __('Total revenue from last 30 days'),
+                    'data' => $orderMonthData->map(fn(Order $order) => $order->total / 100),
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'borderColor' => 'rgba(54, 162, 235, 1)',
+                    'borderWidth' => 1,
+                ]
             ],
-            'labels' => $orderData->map(fn(Order $order) => $order->order_date->format('d/m/Y'))
+            'labels' => $orderMonthData->map(fn(Order $order) => $order->order_date->format('d/m/Y'))
         ];
 
     }
 
     public function updateChartData(): void
     {
-        $this->dispatch('updateChartData',data:$this->getData())->self();
+        $this->dispatch('updateChartData', data: $this->getData())->self();
     }
 
     #[Layout('layouts.app')]
