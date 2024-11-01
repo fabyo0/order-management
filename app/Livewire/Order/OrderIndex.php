@@ -37,7 +37,7 @@ class OrderIndex extends Component
             ->select(['orders.*', 'users.name as username'])
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->with('products')
-            ->filterByUserName($this->searchColumns['username'])
+            ->searchByUserName($this->searchColumns['username'])
             ->filterByDate($this->searchColumns['order_date'][0], $this->searchColumns['order_date'][1])
             ->filterBySubTotal($this->searchColumns['subtotal'][0], $this->searchColumns['subtotal'][1])
             ->filterByTaxes($this->searchColumns['taxes'][0], $this->searchColumns['taxes'][1])

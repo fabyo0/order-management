@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Order;
 
 use App\Models\Order;
 use Livewire\Attributes\Layout;
@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class TotalRevenueChart extends Component
 {
-    protected function getData()
+    protected function getData(): array
     {
         $orderSevenDayData = Order::query()->byDays(7)->get();
         $orderMonthData = Order::query()->byDays(30)->get();

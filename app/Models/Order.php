@@ -38,7 +38,7 @@ class Order extends Model
             ->withPivot('price', 'quantity');
     }
 
-    public function scopeFilterByUserName($query, $name)
+    public function scopeSearchByUserName($query, $name)
     {
         return $query->when(! empty($term) | strlen($name), function () use ($query, $name) {
             return $query->where('users.name', 'like', '%'.$name.'%');
