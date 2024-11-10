@@ -5,7 +5,7 @@
             <div class="p-6">
                 <div class="flex justify-between items-center border-b pb-4 mb-4">
                     <h3 class="text-lg font-semibold text-gray-900">Create Category</h3>
-                    <svg wire:click.prevent="$set('category.showModal', false)"
+                    <svg wire:click.prevent="$set('showModal', false)"
                          class="w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-800"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                         <path
@@ -29,7 +29,7 @@
                     @enderror
                 </div>
                 <div class="flex justify-end space-x-2">
-                    <button type="button" wire:click.prevent="$set('category.showModal', false)"
+                    <button type="button" wire:click.prevent="$set('showModal', false)"
                             class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-200 rounded hover:bg-gray-300">
                         Close
                     </button>
