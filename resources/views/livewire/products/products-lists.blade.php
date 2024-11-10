@@ -11,8 +11,8 @@
                         <h3 class="text-lg font-semibold text-gray-800">Manage Products</h3>
                         <div class="flex space-x-2">
                             <a
-                               href="{{ route('products.create') }}"
-                               class="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
+                                href="{{ route('products.create') }}"
+                                class="px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -50,24 +50,27 @@
                                 </span>
                             </div>
                             <div>
-                                <select wire:model.live="searchColumns.category_id"
-                                        id="selectCategory"
-                                        class="w-full text-sm rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option selected value="{{ null }}">{{ __('-- Choose Category --') }}</option>
-                                    @foreach($categories as $id => $category)
-                                        <option value="{{ $id }}">{{ $category }}</option>
-                                    @endforeach
-                                </select>
+
+                                <x-select2
+                                    id="selectCategory"
+                                    name="searchColumns.categories_id"
+                                    :options="$categories"
+                                    wire:model="searchColumns.category_id"
+                                    placeholder="Select Categories"
+                                    :selectedOptions="$searchColumns['category_id']"
+                                />
+
                             </div>
                             <div>
-                                <select wire:model.live="searchColumns.country_id"
-                                        id="selectCountry"
-                                        class="w-full text-sm rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option selected value="{{ null }}">{{ __('-- Choose Country --') }}</option>
-                                    @foreach($countries as $id => $country)
-                                        <option value="{{ $id }}">{{ $country }}</option>
-                                    @endforeach
-                                </select>
+                                <x-select2
+                                    id="selectCountry"
+                                    name="searchColumns.country_id"
+                                    :options="$countries"
+                                    wire:model="searchColumns.country_id"
+                                    placeholder="Select Country"
+                                    :selectedOptions="$searchColumns['country_id']"
+                                />
+
                             </div>
                             <div class="flex flex-col space-y-2">
                                 <input wire:model.live.debounce="searchColumns.price.0" type="number" placeholder="From"
@@ -162,13 +165,13 @@
                                         <div class="flex items-center space-x-2">
                                             <a
                                                 href="{{ route('products.edit',$product) }}"
-                                               class="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
+                                                class="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
                                                 Edit
                                             </a>
                                             <button
                                                 wire:confirm
                                                 wire:click="delete({{ $product->id }})"
-                                                    class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition duration-150 ease-in-out">
+                                                class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition duration-150 ease-in-out">
                                                 Delete
                                             </button>
                                         </div>

@@ -44,7 +44,7 @@ class Product extends Model
 
     public function scopeFilterByName($query, $name)
     {
-        return $query->when(! empty($term) | strlen($name), function () use ($query, $name) {
+        return $query->when(! empty($term) | strlen($name) > 2, function () use ($query, $name) {
             return $query->where('products.name', 'like', '%'.$name.'%');
         });
     }
