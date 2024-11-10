@@ -29,7 +29,7 @@ class Order extends Model
 
     public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(related: User::class,foreignKey: 'user_id');
     }
 
     public function products(): BelongsToMany

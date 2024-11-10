@@ -10,6 +10,25 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
+                    <!-- Export Buttons -->
+                    <div class="mb-4 flex space-x-2">
+                        <button
+                            wire:click="export('xlsx')"
+                            class="px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-blue-500 rounded-md border border-transparent hover:bg-blue-400">
+                            Xls
+                        </button>
+                        <button
+                            wire:click="export('csv')"
+                            class="px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-green-500 rounded-md border border-transparent hover:bg-green-400">
+                            Csv
+                        </button>
+                        <button
+                            wire:click="export('pdf')"
+                            class="px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-red-500 rounded-md border border-transparent hover:bg-red-400">
+                            Pdf
+                        </button>
+                    </div>
+
                     <div class="mb-4">
                         <div class="mb-4">
                             <a
@@ -19,13 +38,16 @@
                             </a>
                         </div>
 
-                        <button type="button"
-                                wire:click="deleteConfirm('deleteSelected')"
-                                wire:loading.attr="disabled"
-                                {{ $this->selectedCount ? '' : 'disabled' }}
-                                class="px-4 py-2 mr-5 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                            Delete Selected
-                        </button>
+                        @if(count($selected))
+                            <button type="button"
+                                    wire:click="deleteConfirm('deleteSelected')"
+                                    wire:loading.attr="disabled"
+                                    {{ $this->selectedCount ? '' : 'disabled' }}
+                                    class="px-4 py-2 mr-5 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                Delete Selected
+                            </button>
+                        @endif
+
                     </div>
 
                     <div class="overflow-hidden overflow-x-auto mb-4 min-w-full align-middle sm:rounded-md">
@@ -161,15 +183,19 @@
                                             ${{ number_format($order->total / 100, 2) }}
                                         </td>
                                         <td>
-                                            <a
-                                                href="{{ route('orders.edit',$order) }}"
-                                                class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
-                                                Edit
-                                            </a>
-                                            <button wire:click="deleteConfirm('delete', {{ $order->id }})"
-                                                    class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
-                                                Delete
-                                            </button>
+                                            <div class="flex items-center space-x-2">
+                                                <a
+                                                    href="{{ route('orders.edit',$order) }}"
+                                                    class="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
+                                                    Edit
+                                                </a>
+                                                <button
+                                                    wire:confirm
+                                                    wire:click="delete({{ $order->id }})"
+                                                    class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition duration-150 ease-in-out">
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -177,9 +203,7 @@
                             </tbody>
                         </table>
                     </div>
-
                     {{ $orders->links() }}
-
                 </div>
             </div>
         </div>

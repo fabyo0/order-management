@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                    @if(count($selected) > 0)
+                    @if(count($selected))
                         <div class="flex items-center justify-start mb-4">
                             <button type="button"
                                     wire:click="deleteConfirm('deleteSelected')"

@@ -2,13 +2,18 @@
 
 namespace App\Livewire\Order;
 
+use App\Exports\OrdersExport;
+use App\Exports\ProductsExport;
 use App\Models\Order;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 use Masmerise\Toaster\Toastable;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderIndex extends Component
 {
@@ -77,6 +82,17 @@ class OrderIndex extends Component
         $this->success('Selected orders deleted successfully 🤙');
 
         $this->reset('selected');
+    }
+
+    public function export(string $format): BinaryFileResponse
+    {
+        $fileName = 'orders_'.now();
+
+        // Check format
+        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+
+        // Download file
+        return Excel::download(new OrdersExport($this->selected), fileName:$fileName.'.'.$format);
     }
 
     public function getSelectedCountProperty(): int

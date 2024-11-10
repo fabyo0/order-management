@@ -27,7 +27,7 @@ readonly class ProductsExport implements FromCollection, WithHeadings, WithMappi
     {
         return [
             $row->name,
-            $row->categories->pluck('name', 'id'),
+            $row->categories->pluck('name')->join(', '),
             $row->country->name,
             Number::currency($row->price, in: 'USD'),
         ];

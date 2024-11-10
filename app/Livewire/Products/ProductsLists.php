@@ -112,11 +112,13 @@ class ProductsLists extends Component
     // export pdf/csv/xlsx
     public function export(string $format): BinaryFileResponse
     {
+        $fileName = 'products_' . now();
+
         // Check format
-        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+        abort_if(!in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
 
         // Download file
-        return Excel::download(new ProductsExport($this->selected), 'products.'.$format);
+        return Excel::download(new ProductsExport($this->selected), fileName: $fileName . '.' . $format);
     }
 
     #[Layout('layouts.app')]
