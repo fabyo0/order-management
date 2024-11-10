@@ -110,8 +110,13 @@ class ProductsLists extends Component
     }
 
     // export pdf/csv/xlsx
-    public function export(string $format): BinaryFileResponse
+    public function export(string $format): ?BinaryFileResponse
     {
+        if (empty($this->selected)) {
+            $this->warning('Please select products.');
+            return null;
+        }
+
         $fileName = 'products_' . now();
 
         // Check format

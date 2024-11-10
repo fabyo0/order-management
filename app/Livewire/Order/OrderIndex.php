@@ -84,15 +84,20 @@ class OrderIndex extends Component
         $this->reset('selected');
     }
 
-    public function export(string $format): BinaryFileResponse
+    public function export(string $format): ?BinaryFileResponse
     {
-        $fileName = 'orders_'.now();
+        if (empty($this->selected)) {
+            $this->warning('Please select orders.');
+            return null;
+        }
+
+        $fileName = 'orders_' . now();
 
         // Check format
-        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+        abort_if(!in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
 
         // Download file
-        return Excel::download(new OrdersExport($this->selected), fileName:$fileName.'.'.$format);
+        return Excel::download(new OrdersExport($this->selected), fileName: $fileName . '.' . $format);
     }
 
     public function getSelectedCountProperty(): int
