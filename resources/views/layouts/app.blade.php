@@ -57,7 +57,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  document.addEventListener('livewire:init', () => {
+    document.addEventListener('livewire:init', () => {
         Livewire.on('swal:confirm', (event) => {
             swal.fire({
                 title: event[0].title,
@@ -69,12 +69,29 @@
             })
                 .then((willDelete) => {
                     if (willDelete.isConfirmed) {
-                        Livewire.dispatch(event[0].method, { id: event[0].id });
+                        Livewire.dispatch(event[0].method, { id: event[0].id })
+                            .then(() => {
+                                swal.fire({
+                                    title: 'Success!',
+                                    text: 'The action was completed successfully.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                            })
+                            .catch((error) => {
+                                swal.fire({
+                                    title: 'Error!',
+                                    text: 'Something went wrong.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Try again'
+                                });
+                            });
                     }
                 });
         })
     });
 </script>
+
 
 {{--  Livewire Js  --}}
 @livewireScripts

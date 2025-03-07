@@ -93,7 +93,7 @@ class CategoriesList extends Component
         $category->update($this->only('name', 'slug'));
 
         $this->resetValidation();
-        $this->reset('showModal', 'editedCategoryId');
+        $this->reset('showModal', 'editedCategoryId','name','slug');
 
         $this->success('Category updated successfully  🤙');
     }
@@ -132,7 +132,7 @@ class CategoriesList extends Component
         ]);
     }
 
-    public function delete($id): void
+    public function delete(int $id): void
     {
         Category::findOrFail($id)->delete();
         $this->success('Category deleted successfully  🤙');
